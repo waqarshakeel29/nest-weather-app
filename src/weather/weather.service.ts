@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { map, catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { Weather } from './entities/weather.entity';
 
 @Injectable()
@@ -23,7 +22,7 @@ export class WeatherService {
     this.apiUrl = this.configService.get<string>('API_URL');
   }
 
-  getWeather(city: string): Observable<any> {
+  async getWeather(city: string): Promise<any> {
     const url = `${this.apiUrl}?q=${city}&appid=${this.apiKey}&units=metric`;
 
     return this.httpService.get(url).pipe(
